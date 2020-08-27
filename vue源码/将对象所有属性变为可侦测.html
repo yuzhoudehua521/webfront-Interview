@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let user = {
+            username: '张三',
+            type: 'string',
+            friend: {
+                name: '李四'
+            }
+        }
+
+
+        //创建可侦测对象
+        class Observer{
+            constructor(value) {
+                this.value = value
+
+                if(Array.isArray(value)) {
+
+                }else {
+                    this.walk(value)
+                }
+            }
+
+            walk(obj) {
+                //获取对象所有属性列表
+                const keys = Object.keys(obj)
+                for(let i = 0; i < keys.length; i++) {
+                    // console.log(Object.keys(user))      //["username", "type", "friend"]
+                    defineReacyive(obj,keys[i])
+                }
+            }
+        }
+
+
+        //定义响应式函数
+        function defineReacyive(obj,key,val) {
+            //当只传入两个参数，可以直接获取到第三个参数value值
+            if(arguments.length === 2) {
+                val = obj[key]
+            }
+            // 如果属性value也是对象，也需要将其变成可侦测对象
+            if(typeof val === 'object') {
+                new Observer(val)
+            }
+
+            Object.defineProperty(obj, key, {
+            enumerable:true,
+            configurable:true,
+            get() {
+                //进行侦听操作
+                console.log('获得属性了')
+                return  val
+            },
+            set(newValue) {
+                if(val === newValue) {
+                    return
+                }
+                //进行侦听操作
+                console.log('设置属性了')
+                val = newValue
+            }
+        })
+
+        }
+
+        new Observer(user)
+
+
+
+    </script>
+</body>
+</html>

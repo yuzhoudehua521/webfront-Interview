@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        // 对于数组的操作push/pop/shift/unshift/splice/sort/reverse,加上侦听操作
+
+        let arr = [1,2,3]
+
+        //获取数组原型
+        const arrayProto = Array.prototype
+
+        // 根据原型创建新对象
+        const arrayMethods = Object.create(arrayProto)
+        console.log(arrayMethods)
+
+        //需要进行侦听操作的数组方法
+        const methods = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']
+
+        //对方法进行侦听操作修改
+        methods.forEach(function(method) {
+            //获取原来的数组方法
+            const original = arrayProto[method]
+
+            //把新的对象的方法进行修改
+            Object.defineProperty(arrayMethods, method, {
+                enumerable:true,
+                configurable:true,
+                writable:true,
+                //对具体方法进行修改操作
+                value:function(...args) {
+                    //进行侦听操作
+                    console.log(`用了${method}方法修改了数组`)
+                    //返回具体数组操作
+                    return original.apply(this,args)
+                }
+            })
+        })
+    
+        console.log(arrayMethods)
+        arr.__proto__ = arrayMethods
+
+        arr.push(1)
+    
+    </script>
+</body>
+</html>

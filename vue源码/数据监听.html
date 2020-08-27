@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    
+
+    <script>
+        //  修改数据被侦听 
+        let user = {
+            username: '张三',
+            type: 'string'
+        }
+
+        //  修改user的type属性 
+        Object.defineProperty(user, 'type', {
+            enumerable:true,
+            configurable:true,
+            //取数据 let str = user.type
+            get() {
+                return  number
+            },
+            //存数据  user.type = number
+            set(newValue) {
+                newValue = number
+            }
+        })
+
+
+        let str = user.type
+        console.log(str)
+
+    </script>
+
+
+
+</body>
+</html>
